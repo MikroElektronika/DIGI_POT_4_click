@@ -50,8 +50,6 @@ void applicationTask()
 }
 ```
 
-${EXAMPLE_ADDITIONAL_FUNCTIONS}
-
 The full application code, and ready to use projects can be found on our 
 [LibStock](https://libstock.mikroe.com/projects/view/2287/digipot-4-click) page.
 
