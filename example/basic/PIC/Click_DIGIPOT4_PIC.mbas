@@ -1,0 +1,65 @@
+'
+'Example for DIGIPOT4 Click
+'
+'    Date          : Jan 2018.
+'    Author        : MikroE Team
+'
+'Test configuration PIC :
+'    
+'    MCU             : P18F87K22
+'    Dev. Board      : EasyPIC PRO v7
+'    PIC Compiler ver : v7.1.0.0
+'
+'---
+'
+'Description :
+'
+'The application is composed of three sections :
+'
+'- System Initialization -  Intializes SPI module and set CS pin as OUTPUT
+'- Application Initialization -  Driver intialization
+'- Application Task - (code snippet) - Set the wiper position.
+'
+'
+program Click_DIGIPOT4_PIC
+
+include Click_DIGIPOT4_types
+include Click_DIGIPOT4_config
+
+sub procedure systemInit() 
+
+    mikrobus_gpioInit(_MIKROBUS1, _MIKROBUS_CS_PIN, _GPIO_OUTPUT) 
+    mikrobus_spiInit(_MIKROBUS1, @_DIGIPOT4_SPI_CFG[0]) 
+    Delay_100ms() 
+
+end sub
+
+sub procedure applicationInit() 
+
+    digipot4_spiDriverInit(T_DIGIPOT4_P(@_MIKROBUS1_GPIO), T_DIGIPOT4_P(@_MIKROBUS1_SPI)) 
+
+end sub
+
+sub procedure applicationTask() 
+
+    digipot4_writeReg(_DIGIPOT4_WIPER_REG_1, 0) 
+    digipot4_writeReg(_DIGIPOT4_WIPER_REG_2, 0) 
+    Delay_1sec() 
+    digipot4_writeReg(_DIGIPOT4_WIPER_REG_1, 512) 
+    digipot4_writeReg(_DIGIPOT4_WIPER_REG_2, 512) 
+    Delay_1sec() 
+    digipot4_writeReg(_DIGIPOT4_WIPER_REG_1, 1023) 
+    digipot4_writeReg(_DIGIPOT4_WIPER_REG_2, 1023) 
+    Delay_1sec() 
+
+end sub
+
+main :
+
+    systemInit() 
+    applicationInit() 
+    while (1) 
+        applicationTask() 
+    wend
+
+end.
